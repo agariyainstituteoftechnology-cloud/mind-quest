@@ -1,0 +1,272 @@
+/* Sab elements ka box-sizing border-box set kia gaya 
+   taake padding aur border overall size ko affect na kare */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* HTML aur body dono ki height 100% rakhna zaroori hai 
+   taake full screen par layout properly fit ho */
+html,
+body {
+  height: 100%;
+}
+
+/* Body ka main style */
+body {
+  font-family: "Inter", sans-serif; /* Stylish readable font */
+  min-height: 100vh; /* Full viewport height */
+  display: flex; /* Centering ke liye flex use kia */
+  justify-content: center; /* Horizontally center content */
+  align-items: center; /* Vertically center content */
+  transition: background 0.6s ease; /* Background change smooth effect ke saath */
+}
+
+/* === Level wise aur intro screen ke backgrounds === */
+
+/* Jab user "Enter Your Name" screen par hota hai */
+body.enter-screen {
+  background: #6243ebf7; 
+}
+
+/* Level 1 ka background */
+body.level-1 {
+  background-color: rgb(73 228 199); /* Aqua tone */
+}
+
+/* Level 2 ka background */
+body.level-2 {
+  background-color: rgb(159 92 203); /* Purple shade */
+}
+
+/* Level 3 ka background */
+body.level-3 {
+  background-color: #3ac5c9; /* Sky blue type */
+}
+
+/* Level 4 ka background */
+body.level-4 {
+  background: linear-gradient(135deg,#f68cc5f2,#c297f1, #f68cc5f2 ); /* Pink-purple gradient */
+}
+
+/* Jab user jeet jata hai (Victory screen) */
+body.victory {
+  background: linear-gradient(135deg,#ff7f5fc9, #ffb300b3, #ff3d67b8); /* Orange-pink victory tone */
+}
+
+/* === Game container ke design === */
+.game-container {
+  width: 100%; /* Full responsive width */
+  max-width: 448px; /* Fixed width limit */
+  min-height: 80vh; /* Minimum height 80% viewport */
+  background: rgba(30, 41, 59, 0.7); /* Dark transparent background */
+  backdrop-filter: blur(8px); /*popup aana par Glass blur effect */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Soft white border */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); /* Drop shadow */
+  color: white; /* Text color white */
+  padding: 24px; /* Inner spacing */
+  display: flex; /* Layout flex */
+  flex-direction: column; /* Arrange items vertically */
+  gap: 16px; /* Space between elements */
+  background-image: linear-gradient(
+    135deg,
+    #1e3a8a,
+    #4f46e5
+  ); /*level Default gradient */
+  transition: all 0.7s ease-in-out; /* Smooth change in layout and colors */
+  border-radius: 12px; /* Rounded corners */
+}
+
+/* Different level gradients inside game container */
+.gradient-1 {
+  background-image: linear-gradient(
+    135deg,
+    #16c7cc,
+    #d3be34
+  ); /* Aqua-yellow mix */
+}
+.gradient-2 {
+  background-image: linear-gradient(135deg, #4f46e5, #c026d3); /* Indigo-pink */
+}
+.gradient-3 {
+  background-image: linear-gradient(135deg, #10b981, #3b82f6); /* Green-blue */
+}
+.gradient-4 {
+  background-image: linear-gradient(
+    135deg,
+    #a78bfa,
+    #f472b6,
+    #f9a8d4
+  ); /* Purple-pink pastel */
+}
+.gradient-victory {
+  background-image: linear-gradient(
+    135deg,
+    #fbe53c,
+    #f43f5e
+  ); /* Yellow-red victory tone */
+}
+
+/* === Narrator box design === */
+#narrator {
+  min-height: 40px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+  border-left: 4px solid #f97316; /* Orange highlight line */
+  font-size: 14px;
+  font-style: italic; /* Italic hint style */
+  border-radius: 6px;
+}
+
+/* === Progress Bar Styles === */
+
+/* Inner filled part (jo bar fill hota hai) */
+#progressFill {
+  transition: width 0.5s ease-out; /* Smooth width animation */
+  height: 100%;
+  border-radius: 9999px; /* Fully rounded ends */
+  background-color: #f97316; /* Orange fill color */
+  width: 0%; /* Start empty */
+}
+
+/* Outer container of progress bar */
+.progress-bar-wrap {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1); /* Light transparent background */
+  border-radius: 9999px;
+  margin-bottom: 16px;
+}
+
+/* === Tiles, color boxes, memory cards layout === */
+.tile-container,
+.color-grid,
+.mem-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center; /* Center align all items */
+}
+
+/* Common button/tile styles */
+.tile,
+.mem-card,
+.chest-btn,
+.option-btn {
+  background-color: #334155; /* Slate background */
+  color: white;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.3s;
+  box-shadow: 0 4px #1e293b;
+  min-width: 40px;
+}
+
+/* Click (active) state */
+.tile:active,
+.mem-card:active,
+.chest-btn:active,
+.option-btn:active,
+.tile-ghost:active {
+  transform: translateY(2px); /* Press down effect */
+  box-shadow: 0 2px #1e293b;
+}
+
+/* Ghost tile (non-clickable placeholder) */
+.tile-ghost {
+  background-color: #1e293b;
+  color: #94a3b8;
+  cursor: default;
+  box-shadow: 0 4px #1e293b;
+}
+
+/* Memory card design */
+.mem-card {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* Jab card flip ho jata hai */
+.mem-card.flipped {
+  background-color: #f97316; /* Orange */
+  color: #1e293b;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* Jab match ho jaye */
+.mem-card.matched {
+  background-color: #10b981; /* Green */
+  color: #1e293b;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Color puzzle ke liye boxes */
+.color-box {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.1s;
+}
+.color-box:hover {
+  transform: scale(1.05); /* Hover par thoda zoom */
+}
+
+/* Confetti canvas (victory animation ke liye) */
+#confettiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999; /* Top layer par */
+}
+
+/* Retry button section */
+.retry-area {
+  margin-top: 10px;
+}
+.retry-btn {
+  margin-top: 15px;
+  background: linear-gradient(135deg, #ffb300, #ff7043); /* Orange gradient */
+  color: #111827;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+  font-weight: 700;
+}
+.retry-btn:hover {
+  transform: translateY(-2px); /* Hover par lift effect */
+}
+
+/* Small text under retry area */
+.small-muted {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-top: 6px;
+  color: #fde68a; /* Soft yellow text */
+}
+
+/* Failed or Time’s Up text */
+.bold-text {
+  font-weight: 900;
+  color: rgb(241 73 73); /* Bright red error text */
+}
+
+/* 🚀 Play Again Button Glow */
+button.bg-pink-600:hover {
+  transform: scale(1.05);
+}

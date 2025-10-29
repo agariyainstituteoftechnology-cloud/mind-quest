@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- UTF-8 encoding set karne se sab characters (letters, numbers, symbols) sahi display hotay hain -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Yeh line ensure karti hai ke website mobile aur desktop dono par properly responsive dikhe -->
+
+    <title>Mind Quest — The Adventure of Logic & Luck</title>
+
+    <!-- TailwindCSS ka CDN link — yeh ek utility-based CSS framework hai -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts link — 'Inter' font use kiya gaya hai for modern look -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Hamarea project ki css file -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- Body section main visible content hota hai jo user ko screen par nazar aata hai -->
+
+    <!-- Yeh canvas element confetti (colorful particles animation) show karega on victory -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Game ka main container — saara game content isi ke andar render hoga -->
+    <div id="gameContainer" class="game-container">
+      <!-- Top Bar: Player name aur Reset button dikhata hai -->
+      <div class="flex justify-between items-center text-xs opacity-70">
+        <span id="playerNameDisplay" class="font-bold"></span>
+        <!-- Yeh span dynamically player ka naam show karega -->
+
+        <div class="flex gap-2">
+          <!-- Reset button jo game ko restart karega -->
+          <button
+            id="resetBtn"
+            class="bg-red-700 hover:bg-red-600 px-3 py-1 rounded-full text-white transition"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Reset Confirmation Popup -->
+<div
+  id="resetPopup"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50"
+>
+  <!-- Overlay: full screen, semi-transparent, initially hidden -->
+
+  <div
+    class="bg-gradient-to-br from-purple-700 to-pink-600 p-6 rounded-3xl shadow-2xl text-center w-80 transform scale-90 transition-transform duration-300"
+  >
+    <!-- Popup card: gradient background, rounded corners, shadow, zoom effect -->
+
+    <h2 class="text-2xl font-bold text-yellow-300 mb-4">Reset Game?</h2>
+    <!-- Heading -->
+
+    <p class="text-gray-100 mb-6">
+      "Whoa! 🚀 All your progress will vanish. Are you sure you want to
+      start fresh?"
+    </p>
+    <!-- Warning text -->
+
+    <div class="flex justify-around">
+      <!-- Buttons container -->
+
+      <button
+        id="confirmReset"
+        class="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-full shadow-lg transition transform hover:scale-105"
+      >
+        Yes
+      </button>
+      <!-- Confirm button -->
+
+      <button
+        id="cancelReset"
+        class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-6 rounded-full shadow-lg transition transform hover:scale-105"
+      >
+        No
+      </button>
+      <!-- Cancel button -->
+    </div>
+  </div>
+</div>
+
+
+      <!-- Progress bar ka outer wrapper -->
+      <div class="progress-bar-wrap">
+        <div id="progressFill"></div>
+        <!-- Yeh inner div fill part hota hai jo progress ke hisab se bar fill karta hai -->
+      </div>
+
+      <!-- Narrator div: game hints aur messages display karega -->
+      <div id="narrator" class="text-sm"></div>
+
+      <!-- Player ka score show hone wala section -->
+      <div
+        id="scoreDisplay"
+        class="text-lg font-bold text-right text-yellow-300"
+      >
+        Score: 0
+      </div>
+
+      <!-- Stage div: har level, question ya challenge dynamically isi div ke andar render hota hai -->
+      <div
+        id="stage"
+        class="flex flex-col items-center justify-center min-h-64 text-center"
+      ></div>
+    </div>
+
+    <!-- jQuery ka CDN include kiya gaya hai taake JS code easily DOM elements handle kar sake -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Project ki main JavaScript file link -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
