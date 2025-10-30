@@ -11,7 +11,7 @@ $(document).ready(function () {
 
   // === GAME LEVELS KE DETAIL ===
   // Har object ek level represent karta hai
-  const LEVELS = [
+  const LEVELS = [                  //aek array ha jis ma har level ka data obj ki form ma store kiya gaya ha
     {
       id: 1, // Level number
       name: "Logic Gate (The Logic Door)", // Level ka naam
@@ -39,8 +39,8 @@ $(document).ready(function () {
   ];
 
   // === QUIZ QUESTIONS DATA ===
-  // Har object ek riddle (puzzle) hai jisme question, options, aur correct answer index hota hai
-  const QUIZZES = [
+  // Har object ek riddle (puzzle) hai jisme question, options, aur correct answer index or hint hota hai
+  const QUIZZES = [                //QUIZZES ek array hai jisme har quiz ko ek object ki form me store kiya gaya hai.
     {
       q: "What has hands but can’t clap?",
       opts: ["Monkey 🐒", "Clock ⏰", "Robot 🤖", "Baby 👶"],
@@ -98,7 +98,7 @@ $(document).ready(function () {
   const MEMORY_SYMBOLS = ["🦋", "🌙", "🌸", "🌈"];
 
   // === GAME KA CURRENT STATE (player progress, level, etc.) ===
-  let state = {
+  let state = {          //state ek object hai jisme humne player ki saari progress store karwayi hai.
     name: null, // Player ka naam
     level: 1, // Current level number
     unlocked: 1, // Kitne levels unlock hue hain
@@ -109,6 +109,8 @@ $(document).ready(function () {
   };
 
   // Timers aur retry ka setup
+  //Yeh variables game ke timer aur player ki mistakes count karne ke liye banaye gaye hain.
+  //Starting me saari values empty ya zero hoti hain, baad me game inko update karta hai.
   let timerInterval = null; // Level timer ke liye
   let typingTimer = null; // Narration typing effect ke liye
   let totalRetries = 0; // Player ne kitni baar galti ki
@@ -118,9 +120,9 @@ $(document).ready(function () {
 function showPlayerName() {
   // Player ka naam top bar par dikhata hai
   const $playerNameDisplay = $("#playerNameDisplay");
-  if ($playerNameDisplay.length) {
-    $playerNameDisplay.text(
-      `Welcome, ${state.name || ""}`.trim() + (state.name ? "!" : "")
+  if ($playerNameDisplay.length) {    //Agar element exist karta hai tab hi naam show karo
+    $playerNameDisplay.text(          // .text() function element ke andar text show karta hai.
+      `Welcome, ${state.name || ""}`.trim() + (state.name ? "!" : "")  //trim() extra spaces hata deta hai (start aur end se)
     );
   }
 }
