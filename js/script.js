@@ -136,12 +136,18 @@ function showPlayerName() {
   const playerNameDisplay = document.getElementById("playerNameDisplay");
   const resetBtn = document.getElementById("resetBtn");
 
-  // === AUDIO HANDLING (sound remove kiya gaya) ===
+
+  // Ye audio functions placeholder hain. Abhi game me sound disable hai,
+  // lekin game events jaise button click, win aur error in functions ko call karte hain.
+  // Agar hum inhe remove kar dein to browser "function not defined" error dega
+  // aur script crash ho jayegi jisse buttons ka click bhi stop ho jata hai.
+  // Isliye ye functions empty hone ke bawajood rakhe gaye hain
+  // taake game smoothly run ho aur future me sound easily add kiya ja sake.
   function setupTone() {
     
   }
   function handleFirstInteraction() {
-   
+   //first user click detect karta hai taake sound browser policy ke mutabiq enable ho.
   }
   function playClick() {
     
@@ -154,18 +160,32 @@ function showPlayerName() {
   }
 
   // === HELPER FUNCTIONS ===
-  // Random number generate karne ke liye
+  // Random number(box) generate karne ke liye
   const rand = (n) => Math.floor(Math.random() * n);
 
-  // Array shuffle karne ke liye (random order mein kar deta hai)
-  const shuffle = (arr) => {
-    const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  };
+  // Array ko random order (shuffle) karne ke liye function
+const shuffle = (arr) => {
+  
+  // Original array ko copy karte hain taake wo change na ho
+  // slice() → new array banata hai
+  const a = arr.slice();
+
+  // Loop ko end se start karte hain (Fisher-Yates algorithm : array ko last se shuffle karne ke liye)
+  // i = last index se start hoga aur 0 tak jayega
+  for (let i = a.length - 1; i > 0; i--) {
+
+    // 0 se i ke beech me ek random index choose karo
+    const j = Math.floor(Math.random() * (i + 1));//jis ka saath swap karna ha
+
+    // Current element a[i] ko random position a[j] se swap karo
+    // Ye short syntax hai swapping ka
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+
+  // Finally shuffled array return karo
+  return a;
+};
+
 
   // === GAME SAVE / LOAD ===
   // Local storage mein data save karta hai
@@ -173,57 +193,59 @@ function showPlayerName() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
 
-  // Local storage se data wapas load karta hai
+  // Local storage se data wapas load karta hai (taka game wohin sa start ho jahan sa band kiya  tha)
   function load() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) Object.assign(state, JSON.parse(raw));
-    } catch (e) {
-      console.warn("Failed to load state", e);
+    try {   // yahan wo code jo error de sakta hai
+      const raw = localStorage.getItem(STORAGE_KEY);//browser sa save data nikaal lo
+      //if (raw) : agar data h tabhi aaga chalo
+      if (raw) Object.assign(state, JSON.parse(raw));//Jo purani state thi usko saved data se replace karo (update karo)
+    } catch (e) { //isse error aana par game crash nhi hota warning show hoti ha
+      console.warn("Failed to load state", e); //yani agar error aayea to console ma ya warning dikha do
     }
   }
 
   // Score update karne ka function
   function updateScore(points) {
-    state.score += points;
-    scoreDisplay.textContent = `Score: ${state.score}`;
-    save();
+    state.score += points; //purana score ma nayea points add
+    scoreDisplay.textContent = `Score: ${state.score}`;//  // Updated score screen par show karna ka liya
+    save(); //State save kar rahe hain taake refresh ke baad bhi score na mile
   }
 
   // === TEXT NARRATION (Typewriter effect) ===
-  function narrate(text, speed = 25) {
-    if (typingTimer) clearInterval(typingTimer);
-    narratorEl.textContent = "";
-    let i = 0;
+  function narrate(text, speed = 25) {  //text narrate karta hoowa aayea per letter 25ms ki speed sa
+    if (typingTimer) clearInterval(typingTimer); //pehla koi typing animation chal rahi ha to usse band kar do
+    narratorEl.textContent = "";   //ya purana text ko remove karti ha
+    let i = 0;  //text index 0 sa start (ya kon sa letter show horaha ha usse track karta ha)
     const final =
       text +
       (text.endsWith(".") || text.endsWith("!") || text.endsWith("?")
         ? ""
-        : "...");
-    typingTimer = setInterval(() => {
-      narratorEl.textContent += final[i++] || "";
-      if (i > final.length) {
-        clearInterval(typingTimer);
-        typingTimer = null;
+        : "..."); //agar text . ya ! ya ? is pa end hota ha to uch add na karo warna ... ya add kardo
+    typingTimer = setInterval(() => {  //jab tak text complete naa hojayea loop(timing loop) chalta rehta ha har few milliseconds me next letter print karta hai.
+      narratorEl.textContent += final[i++] || "";    //text ka next character milea to add karo warna empty rakho
+      if (i > final.length) {   //Agar i ki value final letters ki total length se zyada ho jay matlab saara text type ho chuka ha
+        clearInterval(typingTimer);  //phir typing timer rukh jayea
+        typingTimer = null;         //ja sab letters print hojayaea to anmimation band kardo
       }
     }, speed);
   }
 
   // === PROGRESS BAR UPDATE ===
-  function setProgress() {
-    const totalLevels = LEVELS.length;
-    const progress = (state.level - 1) / totalLevels;
-    const pct = progress * 100;
-    progressFill.style.width = Math.min(100, Math.max(0, pct)) + "%";
+  function setProgress() {  //function progress bar ko update karna ka liya
+    const totalLevels = LEVELS.length;    //Game me kitne total levels hain count karo
+    const progress = (state.level - 1) / totalLevels;  //Player ne kitna levels complete kiya calculate karo
+    const pct = progress * 100;    //Usko percent me convert karo (0% to 100%)
+    progressFill.style.width = Math.min(100, Math.max(0, pct)) + "%";   //Progress bar ko utna fill kar do
+    //math.min or math.max ya dhyaan rakhta ha ka baar 0% ya 100% sa kam ziada na ho
   }
 
   // === LEVEL GRADIENT SETTER ===
   // Har level ka background color badalta hai
-  function setGradient(levelId) {
-    LEVELS.forEach((l) => container.classList.remove(l.gradient));
+  function setGradient(levelId) {  //function levelgradients change karna ka liya
+    LEVELS.forEach((l) => container.classList.remove(l.gradient));  //har level ka purana background hatao taake naye level ka color correctly apply ho
     container.classList.remove("gradient-victory");
-    const level = LEVELS.find((l) => l.id === levelId);
-    if (level) container.classList.add(level.gradient);
+    const level = LEVELS.find((l) => l.id === levelId);  //(.find) array me se pehla element dhundta hai jo condition true ho or Agar match milta hai → us object ko return karta hai
+    if (level) container.classList.add(level.gradient);  //math howa to phir baqi level ka gradient apply
     else if (levelId === 6) container.classList.add("gradient-victory");
   }
 
@@ -232,7 +254,7 @@ function showPlayerName() {
     const body = document.body;
     // Pehle purani background classes hatao
     body.classList.remove(
-      "level-1",
+      "level-1",   //means agar level 2 pa gaya to level 1 ki class remove hojaayea
       "level-2",
       "level-3",
       "level-4",
@@ -240,15 +262,16 @@ function showPlayerName() {
     );
 
     // Phir current level ke liye nayi class lagao
-    if (levelId >= 1 && levelId <= 4) {
-      body.classList.add(`level-${levelId}`);
+    if (levelId >= 1 && levelId <= 4) {   //ya chek kar raha ha ka level 1 se 4 ka beech ma ha to level ka hisab sa background apply ho
+      body.classList.add(`level-${levelId}`);  
     } else if (levelId === 6 || levelId === "victory") {
       body.classList.add("victory");
     }
   }
 
+  //ya reset ka liya ha ka reset clivk karna par ya code effect run ho
   // ----------  Ye function kisi bhi selector (element type) par clicks disable karta hai ----------
-  function disableClicksOn(selector) {
+  function disableClicksOn(selector) {  //.btn ya #resetBtn element pe clicks disable karne ke liye bana hai
     if (!selector) return; // agar selector nahi mila to kuch mat karo
     document.querySelectorAll(selector).forEach((el) => {
       el.style.pointerEvents = "none"; // click karne ki permission band kar do
@@ -259,7 +282,7 @@ function showPlayerName() {
   // ----------  Ye function clicks ko dobara enable karta hai ----------
   function enableClicksOn(selector) {
     if (!selector) return;
-    document.querySelectorAll(selector).forEach((el) => {
+    document.querySelectorAll(selector).forEach((el) => {   //forEach → har element ke upar jo actions define kiye hain unko apply karta hai
       el.style.pointerEvents = ""; // clicks wapas allow karo
       el.style.opacity = ""; // opacity wapas normal kar do
     });
